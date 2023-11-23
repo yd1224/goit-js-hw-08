@@ -1,28 +1,35 @@
-console.log("qwer");
-// const form = document.querySelector(".feedback");
+import throttle from "lodash.throttle";
+const form = document.querySelector(".feedback-form");
+const feedbackValue = "feedback-form-state";
+form.addEventListener("input", throttle(handleInput, 500));
+function StorageCheck(){
+    if (localStorage.getItem(feedbackValue) !== null) {
+        const {email, message} = JSON.parse(localStorage.getItem(feedbackValue));
+          form.email.value = email;
+       form.message.value = message;
+}
+}
+StorageCheck();
+function handleInput(event) {
 
-// form.addEventListener("input", handleInput);
+        const emailValue = form.email.value;
+        const messageValue = form.message.value;
 
-// function handleInput(event) {
-//     const emailValue = form.email.value;
-//     const messageValue = form.message.value;
+        const feedbackFormState = {
+            email: emailValue,
+            message: messageValue
+        };
 
-//     const feedbackFormState = {
-//         email: emailValue,
-//         message: messageValue
-//     };
-// }
+      localStorage.setItem(feedbackValue, JSON.stringify(feedbackFormState))
+    // console.log(feedbackFormState);
+    }
+form.addEventListener("submit", handleSubmit);
 
-// form.addEventListener("submit", handleSubmit);
-// function handleSubmit(event) {
-//     event.preventDefault;
-//         const emailValue = form.email.value;
-//     const messageValue = form.message.value;
+function handleSubmit(event) {
+    event.preventDefault(); 
+const info = JSON.parse(localStorage.getItem(feedbackValue));
+console.log(info);
+  localStorage.removeItem(feedbackValue);
+  form.reset();
+}
 
-//     const feedbackFormState = {
-//         email: emailValue,
-//         message: messageValue
-//     };
-// console.log(feedbackFormState);
-// }
-console.log("ertyui");
